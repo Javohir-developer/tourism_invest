@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 26, 2021 at 03:58 PM
+-- Generation Time: Apr 28, 2021 at 04:18 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.3.9
 
@@ -1275,25 +1275,26 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 
 CREATE TABLE `viddet` (
   `id` int(11) NOT NULL,
-  `value` varchar(225) NOT NULL
+  `value_uz` varchar(225) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `icons` varchar(225) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `viddet`
 --
 
-INSERT INTO `viddet` (`id`, `value`) VALUES
-(1, 'Оздоровительный центр'),
-(2, 'Зона отдыха'),
-(3, 'Парк'),
-(4, 'Кемпинг'),
-(5, 'Гостевой дом'),
-(6, 'Гостиница'),
-(7, 'Мотель'),
-(8, 'Торговый центр'),
-(9, 'Тематический парк'),
-(10, 'Турические услуги'),
-(11, 'и.др');
+INSERT INTO `viddet` (`id`, `value_uz`, `icons`) VALUES
+(1, 'Оздоровительный центр', 'icon-crosshairs'),
+(2, 'Зона отдыха', 'icon-umbrella1'),
+(3, 'Парк', 'icon-cloud3'),
+(4, 'Кемпинг', 'icon-fullscreen'),
+(5, 'Гостевой дом', 'icon-building'),
+(6, 'Гостиница', 'icon-city'),
+(7, 'Мотель', 'icon-chess-queen'),
+(8, 'Торговый центр', 'icon-gopuram'),
+(9, 'Тематический парк', 'icon-dharmachakra'),
+(10, 'Турические услуги', 'icon-star3'),
+(11, 'и.др', 'icon-cogs');
 
 --
 -- Indexes for dumped tables
