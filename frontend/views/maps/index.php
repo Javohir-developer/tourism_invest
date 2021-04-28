@@ -75,6 +75,11 @@ $this->params['breadcrumbs'][] = Yii::t('app','Karta');
                                 });
 
                             myMap.geoObjects.add(objectManager);
+                            <?php foreach ($model as $row): ?>
+                                var data = '{"type": "Feature", "id": <?= $row->id; ?>,"properties": {"balloonContentBody": " "},  "geometry": {"type": "Point", "coordinates": [<?= $row->latitude ?>, <?= $row->longitude ?>]}}';
+                                objectManager.add(data);
+
+                            <?php endforeach; ?>
                             $( ".left-panel-ajax" ).click(function() {
                                 objectManager.removeAll();
                                 var selectedValue = $(this).children().next().val();
