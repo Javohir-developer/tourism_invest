@@ -32,9 +32,6 @@ $this->params['breadcrumbs'][] = Yii::t('app','Karta');
     }
 </style>
 <script type="text/javascript" src="https://api-maps.yandex.ru/2.1.78/?lang=ru_RU&amp;apikey=608bab7f-a651-42bd-840a-d1c0a9ea67ac"></script>
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>-->
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>-->
 <section id="content" >
     <div class="content-wrap wrapper">
         <div class="container clearfix">
@@ -57,91 +54,70 @@ $this->params['breadcrumbs'][] = Yii::t('app','Karta');
                     </div>
                     <div id="map"></div>
 
-                    <?php
-                    $this->registerJs(
-                        "
-                        var $valu = $(this).children().next().val();
-                        alert($valu);
-                        ",
-                        View::POS_READY,
-                        'my-button-handler'
-                    );
-                    ?>
+
                     <script>
-                        ymaps.ready(function () {
+
+
+                        ymaps.ready(init);
+
+                        function init () {
                             var myMap = new ymaps.Map('map', {
                                     center: [41.302933, 69.248274],
-                                    zoom: 9
+                                    zoom: 5
                                 }, {
                                     searchControlProvider: 'yandex#search'
                                 }),
-                                clusterer = new ymaps.Clusterer({
-                                    preset: 'islands#invertedVioletClusterIcons',
-                                    clusterHideIconOnBalloonOpen: true,
-                                    geoObjectHideIconOnBalloonOpen: true
+                                objectManager = new ymaps.ObjectManager({
+                                    // Чтобы метки начали кластеризоваться, выставляем опцию.
+                                    clusterize: true,
+                                    geoObjectOpenBalloonOnClick: false,
+                                    clusterOpenBalloonOnClick: false
                                 });
 
-                            /**
-                             * Кластеризатор расширяет коллекцию, что позволяет использовать один обработчик
-                             * для обработки событий всех геообъектов.
-                             * Будем менять цвет иконок и кластеров при наведении.
-                             */
-                            clusterer.events
-                                // Можно слушать сразу несколько событий, указывая их имена в массиве.
-                                .add(['mouseenter', 'mouseleave'], function (e) {
-                                    var target = e.get('target'),
-                                        type = e.get('type');
-                                    if (typeof target.getGeoObjects != 'undefined') {
-                                        // Событие произошло на кластере.
-                                        if (type == 'mouseenter') {
-                                            target.options.set('preset', 'islands#invertedPinkClusterIcons');
-                                        } else {
-                                            target.options.set('preset', 'islands#blueBeachIcon');
-                                        }
-                                    } else {
-                                        // Событие произошло на геообъекте.
-                                        if (type == 'mouseenter') {
-                                            target.options.set('preset', 'islands#pinkIcon');
-                                        } else {
-                                            target.options.set('preset', 'islands#violetIcon');
-                                        }
-                                    }
-                                });
+                            myMap.geoObjects.add(objectManager);
+                            $( ".left-panel-ajax" ).click(function() {
+                                objectManager.removeAll();
+                                var selectedValue = $(this).children().next().val();
+                                console.log(selectedValue);
+                                <?php foreach ($model as $row): ?>
+                                if (selectedValue == <?=  $row->kind_activity ?>) {
+                                    var data = '{"type": "Feature", "id": <?= $row->id; ?>,"properties": {"balloonContentBody": " "},  "geometry": {"type": "Point", "coordinates": [<?= $row->latitude ?>, <?= $row->longitude ?>]}}';
+                                    objectManager.add(data);
+                                }
+                                <?php endforeach; ?>
+                            });
 
-                            var getPointData = function (index) {
-                                    return {
-                                        balloonContentBody: 'балун <strong>метки ' + index + '</strong>',
-                                        clusterCaption: 'метка <strong>' + index + '</strong>'
-                                    };
-                                },
-                                getPointOptions = function () {
-                                    return {
-                                        preset: 'islands#violetIcon'
-                                    };
-                                },
-                                points = [
-                                    <?php foreach ($model as $map):?>
 
-                                        [<?=$map->latitude; ?>,<?=$map->longitude; ?>],
-
-                                    <?php endforeach;?>
-                                ],
-                                geoObjects = [];
-
-                            for(var i = 0, len = points.length; i < len; i++) {
-                                geoObjects[i] = new ymaps.Placemark(points[i], getPointData(i), getPointOptions());
+                            function onObjectEvent (e) {
+                                var objectId = e.get('objectId');
+                                if (e.get('type') == 'mouseenter') {
+                                    // Метод setObjectOptions позволяет задавать опции объекта "на лету".
+                                    objectManager.objects.setObjectOptions(objectId, {
+                                        preset: 'islands#yellowIcon'
+                                    });
+                                } else {
+                                    objectManager.objects.setObjectOptions(objectId, {
+                                        preset: 'islands#blueIcon'
+                                    });
+                                }
                             }
 
-                            clusterer.add(geoObjects);
-                            myMap.geoObjects.add(clusterer);
+                            function onClusterEvent (e) {
+                                var objectId = e.get('objectId');
+                                if (e.get('type') == 'mouseenter') {
+                                    objectManager.clusters.setClusterOptions(objectId, {
+                                        preset: 'islands#yellowClusterIcons'
+                                    });
+                                } else {
+                                    objectManager.clusters.setClusterOptions(objectId, {
+                                        preset: 'islands#blueClusterIcons'
+                                    });
+                                }
+                            }
 
-                            myMap.setBounds(clusterer.getBounds(), {
-                                checkZoomRange: true
-                            });
-                            $( ".left-panel-ajax" ).click(function() {
-                                console.log($(this).children().next().val());
-                            });
-                        });
+                            objectManager.objects.events.add(['mouseenter', 'mouseleave'], onObjectEvent);
+                            objectManager.clusters.events.add(['mouseenter', 'mouseleave'], onClusterEvent);
+                        }
                     </script>
 
 
