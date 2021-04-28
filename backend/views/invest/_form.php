@@ -12,7 +12,7 @@ use kartik\date\DatePicker;
 /* @var $model common\models\Invest */
 /* @var $form yii\widgets\ActiveForm */
 
-$viddet = ArrayHelper::map(Viddet::find()->select(['id', 'value'])->asArray()->all(), 'id', 'value');
+$viddet = ArrayHelper::map(Viddet::find()->select(['id', 'value_uz'])->asArray()->all(), 'id', 'value_uz');
 $listRegion = ArrayHelper::map(Region::find()->select(['id', 'name_ru'])->asArray()->all(), 'id', 'name_ru');
 $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->region_id])->select(['id', 'name_ru'])->asArray()->all(), 'id', 'name_ru');
 

@@ -7,11 +7,11 @@
                 <div class="grid-inner">
                     <div class="portfolio-image">
                         <a href="#">
-                            <img src="<?=\yii\helpers\Url::to(['../canvas/images/new_images/_babur park _uzbekistan_andijan_dome_mosque_sun_nature_tree_statue_zahiridddin_zakhriddin_muhammad_bobur_babur_statue_bogi_shamol_bagishamol_hill_atraction_park_drone_footage.JPG'])?>" alt="Open Imagination">
+                            <img src="<?=\yii\helpers\Url::to(['../canvas/images/new_images/bosh1.JPG'])?>" alt="Open Imagination">
                         </a>
                         <div class="bg-overlay">
                             <div class="bg-overlay-content dark" data-hover-animate="fadeIn" data-hover-parent=".portfolio-item">
-                                <a href="<?=\yii\helpers\Url::to(['../canvas/images/new_images/new_katta_img/_babur park _uzbekistan_andijan_dome_mosque_sun_nature_tree_statue_zahiridddin_zakhriddin_muhammad_bobur_babur_statue_bogi_shamol_bagishamol_hill_atraction_park_drone_footage.JPG'])?>" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item" data-lightbox="image" title="Image"><i class="icon-line-plus"></i></a>
+                                <a href="<?=\yii\helpers\Url::to(['../canvas/images/new_images/new_katta_img/bosh1.JPG'])?>" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item" data-lightbox="image" title="Image"><i class="icon-line-plus"></i></a>
                                 <a href="#" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item"><i class="icon-line-ellipsis"></i></a>
                             </div>
                             <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-parent=".portfolio-item"></div>
@@ -28,11 +28,11 @@
                 <div class="grid-inner">
                     <div class="portfolio-image">
                         <a href="#">
-                            <img src="<?=\yii\helpers\Url::to(['../canvas/images/new_images/_gur-e-amir mausoleum_samarkand_mausoleum_dome_brick_ancient_architecture_heritage_gur_emir_amir_temur_timur_evening_colorful_beautiful_view_sky_travel_sighseeing_muqarnas_mosaic_nigh_lighs_lighting.jpg'])?>" alt="Locked Steel Gate">
+                            <img src="<?=\yii\helpers\Url::to(['../canvas/images/new_images/bosh2.JPG'])?>" alt="Locked Steel Gate">
                         </a>
                         <div class="bg-overlay">
                             <div class="bg-overlay-content dark" data-hover-animate="fadeIn" data-hover-parent=".portfolio-item">
-                                <a href="<?=\yii\helpers\Url::to(['../canvas/images/new_images/new_katta_img/_gur-e-amir mausoleum_samarkand_mausoleum_dome_brick_ancient_architecture_heritage_gur_emir_amir_temur_timur_evening_colorful_beautiful_view_sky_travel_sighseeing_muqarnas_mosaic_nigh_lighs_lighting.jpg'])?>" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item" data-lightbox="image" title="Image"><i class="icon-line-plus"></i></a>
+                                <a href="<?=\yii\helpers\Url::to(['../canvas/images/new_images/new_katta_img/bosh2.JPG'])?>" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item" data-lightbox="image" title="Image"><i class="icon-line-plus"></i></a>
                                 <a href="#" class="overlay-trigger-icon bg-light text-dark" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350" data-hover-parent=".portfolio-item"><i class="icon-line-ellipsis"></i></a>
                             </div>
                             <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-parent=".portfolio-item"></div>
