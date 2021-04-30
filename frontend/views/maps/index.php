@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = Yii::t('app','Karta');
                                         <?php foreach ($vid_det as $det): ?>
                                         <li class="left-panel-ajax"><i class="<?= $det->icons; ?>"> </i> <input type="hidden" value="<?= $det->id; ?>"> <span><?= $det->value_uz; ?></span> </li>
                                         <?php endforeach;?>
+<!--                                        <li class="left-panel-ajax"><i class="icon-tasks"> </i> <input type="hidden" value="0"> <span>Все места </span> </li>-->
                                         <input type="hidden" id="viddet" value="0">
                                     </ul>
                                     <div class="close-btn m-tooltip-right" data-tooltip-content="Свернуть/Развернуть"><a class="btn-floating btn-large waves-effect waves-light blue"><i class="icon-line-arrow-right-circle"></i></a></div>

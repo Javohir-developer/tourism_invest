@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'canvas/js/jquery.js',
         'canvas/js/plugins.min.js',
+        'canvas/js/components/bs-datatable.js',
         'canvas/js/functions.js',
         'canvas/main.js',
     ];

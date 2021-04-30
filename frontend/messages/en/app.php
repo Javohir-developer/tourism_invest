@@ -22,7 +22,7 @@ return [
     'Bosh sahifa /' => 'Home /',
     'English' => 'English',
     'KO\'P O\'QILGAN YANGILIKLAR' => 'MOST READ NEWS',
-    'Karta' => 'Map',
+    'Harita' => 'Maps',
     'O\'ZBEK' => 'O \' ZBEK',
     'Tilni o\'zgartirish' => 'Change language',
     'Tourism Yangiliklari' => 'Tourism News',
@@ -32,6 +32,7 @@ return [
     'Batafsil' => '',
     'Tourism Mediya' => '',
     'salom' => '@@@@',
+    'Reyestr' => 'Register',
 
     'Ism'=>'Name',
     'Familiya'=>'Surname',

@@ -22,3 +22,9 @@ $(document).ready(function(){
 $( ".left-panel-ajax" ).click(function() {
     $("#viddet").val($(this).children().next().val());
 });
+
+
+
+$(document).ready(function() {
+    $('#datatable1').dataTable();
+});

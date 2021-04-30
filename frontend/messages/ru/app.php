@@ -23,7 +23,7 @@ return [
     'Bosh sahifa /' => 'Главный /',
     'English' => 'Английский',
     'KO\'P O\'QILGAN YANGILIKLAR' => 'САМЫЕ ЧИТАЕМЫЕ НОВОСТИ',
-    'Karta' => 'Карта',
+    'Harita' => 'Карта',
     'O\'ZBEK' => 'О \' ZBEK',
     'Tilni o\'zgartirish' => 'Изменить язык',
     'Tourism Yangiliklari' => 'Новости туризма',
@@ -32,7 +32,7 @@ return [
     'РУССКИЙ' => 'РУССКИЙ',
     'Tourism Mediya' => '',
     'salom' => '@@@@',
-
+    'Reyestr' => 'Реестр',
     'Ism'=>'Имя',
     'Familiya'=>'Фамилия',
     'Mavzu'=>'Предмет',
