@@ -4052,7 +4052,7 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
     }
 
     .side-header #logo {
-        margin: 3rem 0;
+        margin: 3rem 0 0 0 !important;
         width: 100%
     }
 

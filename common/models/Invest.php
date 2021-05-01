@@ -6,6 +6,7 @@ use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "invest".
@@ -43,7 +44,6 @@ use yii\httpclient\Client;
  * @property int $number_of_rooms
  * @property string $information_proof
  * @property int $finance_self_sum
- * @property int $finance_consumed_sum
  * @property int $finance_credit_sum
  * @property int $finance_credit_dollar
  * @property int $finance_frr_dollar
@@ -73,7 +73,6 @@ use yii\httpclient\Client;
  * @property string $finance_start_date1
  * @property string $finance_end_date1
  * @property string $status_proyikt
- * @property string $create_data
  * @property string|null $image
  * @property string|null $image1
  * @property string|null $image2
@@ -87,6 +86,8 @@ class Invest extends \yii\db\ActiveRecord
     public $imageFiles;
     public $imageFiles1;
     public $imageFiles2;
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
     /**
      * {@inheritdoc}
      */
@@ -101,17 +102,16 @@ class Invest extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'city_id', 'region_id', 'project_name', 'address', 'initiator', 'latitude', 'longitude', 'uz_company_name', 'uz_fio', 'uz_address', 'uz_tel', 'uz_email', 'uz_inn', 'foreigner_company_name', 'foreigner_fio', 'foreigner_address', 'foreigner_tel', 'foreigner_email', 'foreigner_country', 'information_project_sum', 'information_project_dollar', 'information_dollar_course', 'standart', 'improvements', 'semi_suite', 'suite', 'apartment', 'number_of_beds', 'number_of_rooms', 'information_proof', 'finance_self_sum', 'finance_consumed_sum', 'finance_credit_sum', 'finance_credit_dollar', 'finance_frr_dollar', 'finance_foreign_line_dollar', 'finance_investment_dollar', 'finance_start_date', 'finance_end_date', 'short_description', 'problems', 'solving_problems', 'kind_activity', 'created_jobs', 'square', 'allocation', 'service_bank', 'add_new2', 'add_new3', 'information_project_sum1', 'information_project_dollar1', 'information_dollar_course1', 'finance_credit_sum1', 'finance_credit_dollar1', 'finance_self_sum1', 'finance_frr_dollar1', 'finance_foreign_line_dollar1', 'finance_investment_dollar1', 'finance_start_date1', 'finance_end_date1', 'status_proyikt', 'create_data', 'link'], 'required'],
-            [['user_id', 'city_id', 'region_id', 'uz_inn', 'information_project_sum', 'information_project_dollar', 'standart', 'improvements', 'semi_suite', 'suite', 'apartment', 'number_of_beds', 'number_of_rooms', 'finance_self_sum', 'finance_consumed_sum', 'finance_credit_sum', 'finance_credit_dollar', 'finance_frr_dollar', 'finance_foreign_line_dollar', 'finance_investment_dollar', 'kind_activity', 'status'], 'integer'],
-            [['finance_start_date', 'finance_end_date', 'finance_start_date1', 'finance_end_date1', 'create_data'], 'safe'],
+            [[ 'region_id', 'project_name', 'address', 'initiator', 'latitude', 'longitude', 'uz_company_name', 'uz_fio', 'uz_address', 'uz_tel', 'uz_email', 'uz_inn', 'foreigner_company_name', 'foreigner_fio', 'foreigner_address', 'foreigner_tel', 'foreigner_email', 'foreigner_country', 'information_project_sum', 'information_project_dollar', 'information_dollar_course', 'standart', 'improvements', 'semi_suite', 'suite', 'apartment', 'number_of_beds', 'number_of_rooms', 'information_proof', 'finance_self_sum',  'finance_credit_sum', 'finance_credit_dollar', 'finance_frr_dollar', 'finance_foreign_line_dollar', 'finance_investment_dollar', 'finance_start_date', 'finance_end_date', 'short_description', 'problems', 'solving_problems', 'kind_activity', 'created_jobs', 'square', 'allocation', 'service_bank', 'add_new2', 'add_new3', 'information_project_sum1', 'information_project_dollar1', 'information_dollar_course1', 'finance_credit_sum1', 'finance_credit_dollar1', 'finance_self_sum1', 'finance_frr_dollar1', 'finance_foreign_line_dollar1', 'finance_investment_dollar1', 'finance_start_date1', 'finance_end_date1', 'status_proyikt',  'link'], 'required'],
+            [['user_id', 'city_id', 'region_id', 'uz_inn', 'information_project_sum', 'information_project_dollar', 'standart', 'improvements', 'semi_suite', 'suite', 'apartment', 'number_of_beds', 'number_of_rooms', 'finance_self_sum',  'finance_credit_sum', 'finance_credit_dollar', 'finance_frr_dollar', 'finance_foreign_line_dollar', 'finance_investment_dollar', 'kind_activity', 'status'], 'integer'],
+            [['finance_start_date', 'finance_end_date', 'finance_start_date1', 'finance_end_date1'], 'safe'],
             [['short_description', 'problems', 'solving_problems'], 'string'],
             [['project_name', 'address', 'initiator', 'latitude', 'longitude', 'uz_company_name', 'uz_fio', 'uz_address', 'uz_tel', 'uz_email', 'foreigner_company_name', 'foreigner_fio', 'foreigner_address', 'foreigner_tel', 'foreigner_email', 'foreigner_country', 'information_dollar_course', 'information_proof'], 'string', 'max' => 255],
             [['created_jobs', 'square', 'allocation', 'service_bank', 'add_new2', 'add_new3', 'information_project_sum1', 'information_project_dollar1', 'information_dollar_course1', 'finance_credit_sum1', 'finance_credit_dollar1', 'finance_self_sum1', 'finance_frr_dollar1', 'finance_foreign_line_dollar1', 'finance_investment_dollar1', 'status_proyikt', 'image', 'image1', 'image2', 'link'], 'string', 'max' => 225],
-            ['create_data', 'date', 'format' => 'yyyy-M-d'],
-            ['finance_start_date', 'date', 'format' => 'yyyy-M-d'],
-            ['finance_end_date', 'date', 'format' => 'yyyy-M-d'],
-            ['finance_start_date1', 'date', 'format' => 'yyyy-M-d'],
-            ['finance_end_date1',  'date', 'format' => 'yyyy-M-d'],
+            ['finance_start_date', 'date', 'format' => 'yyyy-mm-dd'],
+            ['finance_end_date', 'date', 'format' => 'yyyy-mm-dd'],
+            ['finance_start_date1', 'date', 'format' => 'yyyy-mm-dd'],
+            ['finance_end_date1',  'date', 'format' => 'yyyy-mm-dd'],
             [['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['imageFiles1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['imageFiles2'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
@@ -169,7 +169,7 @@ class Invest extends \yii\db\ActiveRecord
             'finance_frr_dollar' => 'Ист. фин.  ФРР (тыс.  долл. США)',
             'finance_foreign_line_dollar' => 'Ист. фин.  Иностранные кредитние линии(тыс. долл. США)',
             'finance_investment_dollar' => 'Ист. фин.  Иностранные инвестиции (тыс . долл. США) ',
-            'finance_consumed_sum' => 'Сумма освоения на дату отчета млн. сумм.',
+
             'finance_job_places' => 'Создаваемые рабочие места',
             'finance_start_date' => 'Дата начали(по плану)',
             'finance_start_date1' => 'Дата начали(по факту)',
@@ -191,6 +191,49 @@ class Invest extends \yii\db\ActiveRecord
             'imageFiles2' => 'Tекущее состаяние проекта(jpeg, jpg, png)',
 
         ];
+    }
+
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_CREATE => ['city_id', 'region_id', 'project_name', 'address', 'initiator', 'latitude', 'longitude', 'uz_company_name', 'uz_fio', 'uz_address', 'uz_tel', 'uz_email', 'uz_inn', 'foreigner_company_name', 'foreigner_fio', 'foreigner_address', 'foreigner_tel', 'foreigner_email', 'foreigner_country', 'information_project_sum', 'information_project_dollar', 'information_dollar_course', 'standart', 'improvements', 'semi_suite', 'suite', 'apartment', 'number_of_beds', 'number_of_rooms', 'information_proof', 'finance_self_sum',  'finance_credit_sum', 'finance_credit_dollar', 'finance_frr_dollar', 'finance_foreign_line_dollar', 'finance_investment_dollar', 'finance_start_date', 'finance_end_date', 'short_description', 'problems', 'solving_problems', 'kind_activity', 'created_jobs', 'square', 'allocation', 'service_bank', 'add_new2', 'add_new3', 'information_project_sum1', 'information_project_dollar1', 'information_dollar_course1', 'finance_credit_sum1', 'finance_credit_dollar1', 'finance_self_sum1', 'finance_frr_dollar1', 'finance_foreign_line_dollar1', 'finance_investment_dollar1', 'finance_start_date1', 'finance_end_date1', 'status_proyikt', 'link', 'imageFiles', 'imageFiles1', 'imageFiles2'],
+            self::SCENARIO_UPDATE => [],
+        ];
+    }
+
+
+    public function upload(){
+        $this->imageFiles = UploadedFile::getInstance($this, 'imageFiles');
+        $this->imageFiles1 = UploadedFile::getInstance($this, 'imageFiles1');
+        $this->imageFiles2 = UploadedFile::getInstance($this, 'imageFiles2');
+        if ($this->validate()) {
+
+            if (!empty($this->imageFiles) && $this->imageFiles == true){
+                $file_name = ((int) (microtime(true) * (1000))) .'a.'. $this->imageFiles->extension;
+                $this->imageFiles->saveAs('@frontend/web/uploads/images/' . $file_name, false);
+                $this->image = $file_name;
+            }
+
+            if (!empty($this->imageFiles1) && $this->imageFiles1 == true){
+                $file_name = ((int) (microtime(true) * (1000))) .'b.'. $this->imageFiles1->extension;
+                $this->imageFiles1->saveAs('@frontend/web/uploads/images/' . $file_name, false);
+                $this->image1 = $file_name;
+            }
+
+            if (!empty($this->imageFiles2) && $this->imageFiles2 == true){
+                $file_name = ((int) (microtime(true) * (1000))) .'c.'. $this->imageFiles2->extension;
+                $this->imageFiles2->saveAs('@frontend/web/uploads/images/' . $file_name, false);
+                $this->image2 = $file_name;
+            }
+            $this->user_id = Yii::$app->user->id;
+            $this->status = 1;
+            if ($this->save()){
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
 
@@ -272,6 +315,7 @@ class Invest extends \yii\db\ActiveRecord
             'jobs'=>(int)$jobs / 1000,
         ];
     }
+
 
 
 

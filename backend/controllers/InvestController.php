@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\City;
 use Yii;
 use common\models\Invest;
 use common\models\InvestSearch;
@@ -64,15 +65,21 @@ class InvestController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Invest();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model = new Invest(['scenario' => Invest::SCENARIO_CREATE]);
+        if ($model->load(Yii::$app->request->post()) && $upload =  $model->upload()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionCite($region){
+         $city = City::find()->where(['region_id'=>$region])->all();
+         foreach ($city as $citys){
+             echo '<option value="'.$citys->id.'">'.$citys->name_uz.'</option>';
+         }
     }
 
     /**
@@ -85,8 +92,8 @@ class InvestController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->scenario = $model::SCENARIO_UPDATE;
+        if ($model->load(Yii::$app->request->post()) && $model->upload()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

@@ -2,8 +2,8 @@
 
 use yii\web\View;
 
-$this->title = Yii::t('app','Invest loyihalarini kartada joylashivi');
-$this->params['titlebreadcrumbs'] = Yii::t('app','Invest loyihalarini kartada joylashivi');
+$this->title = Yii::t('app','"Chorvoq" erkin turistik zonalari kartada joylashivi');
+$this->params['titlebreadcrumbs'] = Yii::t('app','"Chorvoq" erkin turistik zonalari kartada joylashivi');
 $this->params['breadcrumbs'][] = Yii::t('app','Karta');
 ?>
 <style>

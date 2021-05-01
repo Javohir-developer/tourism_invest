@@ -70,7 +70,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
     <div class="layout-px-spacing">
         <h1 style="text-align: center"><?= Html::encode($this->title) ?></h1>
         <?php  $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
+        <?= $form->errorSummary($model)?>
 
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing  ">
@@ -734,7 +734,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
                             <div class="row"  style=""  id="table12">
                                 <table class="table table-bordered table-striped table-condensed">
                                     <tr>
-                                        <td class="success" rowspan="2">
+                                        <td class="" rowspan="2">
                                             <?= $form->field($model, 'number_of_rooms')->textInput(['readonly' => true]) ?>
                                         </td>
                                         <td class="info" rowspan="2">
@@ -784,7 +784,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
 
                             <?= $form->field($model, 'finance_start_date')->widget(DatePicker::className(), [
                                 'pluginOptions' => [
-                                    'format' => 'yyyy-M-d',
+                                    'format' => 'yyyy-mm-dd',
                                     'todayHighlight' => true,
                                     'autoclose' => true
                                 ]
@@ -792,7 +792,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
                             ?>
                             <?= $form->field($model, 'finance_end_date')->widget(DatePicker::className(), [
                                 'pluginOptions' => [
-                                    'format' => 'yyyy-M-d',
+                                    'format' => 'yyyy-mm-dd',
                                     'todayHighlight' => true,
                                     'autoclose' => true
                                 ]
@@ -804,7 +804,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
 
                             <?= $form->field($model, 'finance_start_date1')->widget(DatePicker::className(), [
                                 'pluginOptions' => [
-                                    'format' => 'yyyy-M-d',
+                                    'format' => 'yyyy-mm-dd',
                                     'todayHighlight' => true,
                                     'autoclose' => true
                                 ]
@@ -812,7 +812,7 @@ $listCity = ArrayHelper::map(City::find()->andWhere(['region_id'=> $model->regio
                             ?>
                             <?= $form->field($model, 'finance_end_date1')->widget(DatePicker::className(), [
                                 'pluginOptions' => [
-                                    'format' => 'yyyy-M-d',
+                                    'format' => 'yyyy-mm-dd',
                                     'todayHighlight' => true,
                                     'autoclose' => true
                                 ]
