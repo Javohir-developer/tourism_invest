@@ -8,20 +8,31 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
-    'language'   => 'uz',
-    'sourceLanguage' => 'uz_UZ',
+    'layout' => 'admin',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => [],
-    'components' => [
-        'ClickData' => [
-
-            'class' => 'app\components\ClickData',
-
+    'language'  => 'ru',
+    'bootstrap' => ['log'], 
+    'modules' => [
+        'treemanager' =>  [
+            'class' => '\kartik\tree\Module',
         ],
+        'translations' => [
+            'class' => 'common\modules\translations\modules\admin\Module'
+        ],
+        'settings' => [
+            'class' => 'common\modules\settings\modules\admin\Module'
+        ],
+        'menu' => [
+            'class' => 'common\modules\menu\modules\admin\Module'
+        ],
+    ],
+    'controllerMap' => [
+        'files' => 'oks\filemanager\controllers\FilesController',
+        'categories' => 'oks\categories\controllers\CategoriesController',
+    ],
+    'components' => [
         'request' => [
-            'baseUrl' => '/admin/4D24A94C78C98DB9',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
@@ -42,46 +53,57 @@ return [
                 ],
             ],
         ],
-        'recaptchaV3' => [
-            'class' => 'Baha2Odeh\RecaptchaV3\RecaptchaV3',
-            'site_key' => '6LfCC7MUAAAAAHGWCzo5V1cZEOUiMh4tDW7TEn_G',
-            'secret_key' => '6LfCC7MUAAAAAMKbRjkbESqCKnGgh_RjunShjfBM',
-            'verify_ssl' => true, // default is true
-        ],
-
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
-            'class' => 'codemix\localeurls\UrlManager',
-            'scriptUrl'=>'/backend/index.php',
-//            'enableLanguageDetection' => true,
-//            'enableDefaultLanguageUrlCode' => true,
-//            'enableLanguagePersistence' => false,
+            'showScriptName'  => false,
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'languages' => ['en', 'ru', 'uz'],
-        ],
-    ],
-    'controllerMap' => [
-        'elfinder' => [
-            'class' => 'mihaildev\elfinder\PathController',
-            'access' => ['@'],
-            'root' => [
-                'path' => '', //path in ftp path (real path will be  /public_html/test/, real Url will be http://domain.com/test/)
-                'baseUrl'=>'/uploads/images',
-                'basePath'=>'@frontend/web/uploads/images/',
+            'rules'           => [
+                '<controller:\w+>/<id:\d+>'                                 => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id\d+>'                     => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<lang\d+>/<id\d+>/<hash\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'                             => '<controller>/<action>',
             ],
-//            'watermark' => [
-//                'source'         => __DIR__.'/logo.png', // Path to Water mark image
-//                'marginRight'    => 5,          // Margin right pixel
-//                'marginBottom'   => 5,          // Margin bottom pixel
-//                'quality'        => 95,         // JPEG image save quality
-//                'transparency'   => 70,         // Water mark image transparency ( other than PNG )
-//                'targetType'     => IMG_GIF|IMG_JPG|IMG_PNG|IMG_WBMP, // Target image formats ( bit-field )
-//                'targetMinPixel' => 200         // Target image minimum pixel size
-//            ]
+        ],
+        'assetManager' => [
+            'linkAssets'        => true,
+            'appendTimestamp'   => true,
+        ],
+        'view' => [
+            'class' => 'backend\components\View',
+        ],
+        'categories' => [
+            'class' => 'oks\categories\actions\CategoriesAction'
         ]
+    ],
+//    'on beforeAction' => function () {
+//        oks\langs\components\Lang::onRequestHandler();
+//        if (!\Yii::$app->user->isGuest) {
+//            if(Yii::$app->user->identity->type !== \common\models\User::TYPE_ADMIN){
+//                Yii::$app->user->logout();
+//                return Yii::$app->getResponse()->redirect(getenv('FRONTEND_URL'))->send();
+//            };
+//        }
+//
+//    },
+    'on beforeAction' => function () {
+        oks\langs\components\Lang::onRequestHandler();
+    },
+    'as beforeRequest' => [  //if guest user access site so, redirect to login page.
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'controllers' => ['site'],
+                'actions' => ['login','logout'],
+                'roles' => ['?','@'],
+                'allow' => true,
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
     ],
     'params' => $params,
 ];

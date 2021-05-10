@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/../../common/config/env.php';
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -30,6 +31,14 @@ return [
                 ],
             ],
         ],
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn'      => getenv( 'DB_DSN' ),
+            'username' => getenv( 'DB_USERNAME' ),
+            'password' => getenv( 'DB_PASSWORD' ),
+            'charset' => 'utf8',
+        ],
+
     ],
     'params' => $params,
 ];

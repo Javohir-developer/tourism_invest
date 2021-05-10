@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="61px" height="61px" viewBox="0 0 61 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 24</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02" transform="translate(-440.000000, -4044.000000)" fill-rule="nonzero">
+            <g id="Group-17" transform="translate(-237.000000, 3867.000000)">
+                <g id="Group-15-Copy-2" transform="translate(648.000000, 0.000000)">
+                    <g id="play-button-(3)" transform="translate(29.000000, 177.000000)">
+                        <g id="Group-24">
+                            <path d="M56.8434215,15.235097 C48.4322046,0.666402116 29.8024339,-4.32550265 15.234903,4.08726631 C0.666208113,12.4973192 -4.32589065,31.1263139 4.08687831,45.6944268 C12.4969312,60.2631217 31.1261199,65.2558025 45.6938448,56.8438095 C60.2627337,48.4308466 65.2571605,29.8028219 56.8434215,15.235097 Z" id="Shape" fill="#FFFFFF"></path>
+                            <path d="M41.4304233,29.2270194 L25.4806173,19.9247443 C24.0271429,19.0761728 22.8547795,19.7546032 22.8629277,21.4358377 L22.9446032,39.8999295 C22.9519753,41.580776 24.1386949,42.2650265 25.5964374,41.4230511 L41.4242152,32.284903 C42.8804056,31.4444797 42.8835097,30.0755908 41.4304233,29.2270194 Z" id="Path" fill="#002A64"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

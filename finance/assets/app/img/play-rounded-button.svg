@@ -1,0 +1,12 @@
+<svg id="play-rounded-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </linearGradient>
+  </defs>
+  <g id="play-circle-fill">
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="14" cy="14" r="14" transform="translate(21.346 21.346)" fill="#6094fc"/>
+    <path id="Path_778" data-name="Path 778" d="M35,0A35,35,0,1,0,70,35,35.1,35.1,0,0,0,35,0ZM29.919,43.562v-17.5l15,8.75Z" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

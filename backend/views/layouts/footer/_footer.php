@@ -1,2 +1,0 @@
-</div>
-<!-- END MAIN CONTAINER -->

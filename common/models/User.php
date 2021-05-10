@@ -1,6 +1,8 @@
 <?php
 namespace common\models;
 
+use oks\filemanager\behaviors\InputModelBehavior;
+use oks\langs\components\ModelBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -14,21 +16,33 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $verification_token
  * @property string $email
  * @property string $auth_key
+ * @property string $phone
+ * @property string $company
+ * @property string $position
+ * @property integer $region_id
+ * @property integer $city_id
  * @property integer $status
+ * @property integer $type
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
+ * @property integer restr
+ * @property string $password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    const TYPE_USER = 0;
+    const TYPE_ADMIN = 1;
+    const POSITION_DIRECTOR = 1;
+    const POSITION_OTEN = 2;
 
+    const TYPE_RESTR = 1;
+    const TYPE_NORESTR = 0;
+    public $password;
     /**
      * {@inheritdoc}
      */
@@ -44,17 +58,22 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+            'file_manager_model' => [
+                'class' => InputModelBehavior::className(),
+                'delimitr' => ','
+            ],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        	[['region_id', 'city_id', 'type', 'created_at', 'updated_at','data','restr','position_id'], 'integer'],
+        	[['username', 'phone', 'image','description','company', 'email','surname','fathet_name','inn'], 'string'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
@@ -66,12 +85,29 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
+    public static function getType($id)
+    {
+        $user = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return $user->type;
+    }
+
     /**
      * {@inheritdoc}
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -100,19 +136,6 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
-        ]);
-    }
-
-    /**
-     * Finds user by verification email token
-     *
-     * @param string $token verify email token
-     * @return static|null
-     */
-    public static function findByVerificationToken($token) {
-        return static::findOne([
-            'verification_token' => $token,
-            'status' => self::STATUS_INACTIVE
         ]);
     }
 
@@ -195,18 +218,15 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates new token for email verification
-     */
-    public function generateEmailVerificationToken()
-    {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    /**
      * Removes password reset token
      */
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
     }
+    public function getRestr()
+    {
+        return $this->hasOne(Restr::className(), ['id' => 'restr']);
+    }
+
 }

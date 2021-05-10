@@ -1,7 +1,7 @@
 <?php
 namespace backend\controllers;
 
-use common\models\Invest;
+use common\models\User;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -19,47 +19,30 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error',  'signup'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-
-
-                    [
-                        'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['Admin'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['get'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
+    public function actionError() {
+
+        $exeption = \Yii::$app->errorHandler->exception;
+        $code = $exeption->statusCode;
+        $name = $exeption->getName();
+        $message = $exeption->getMessage();
+
+        \Yii::$app->layout = 'error_layout';
+        return $this->render('error', [
+            'code' => $code,
+            'name' => $name,
+            'message' => $message
+        ]);
     }
+
 
     /**
      * Displays homepage.
@@ -68,8 +51,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $model = new Invest();
-        return $this->render('index', ['model'=>$model]);
+        return $this->render('index');
     }
 
     /**
@@ -83,11 +65,19 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $this->layout = 'blank';
-
+        Yii::$app->layout = 'no_carcas';
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+            $user = User::find()->where(['username' => $model->username])->one();
+            $model->email = $user->email;
+            if ($model->login()) {
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+            else {
+            	return $this->render('login', [
+					'model' => $model,
+				]);
+            }
         } else {
             $model->password = '';
 

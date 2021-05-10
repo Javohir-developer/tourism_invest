@@ -10,24 +10,18 @@ use yii\web\AssetBundle;
 class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web';
-    public $css = [
-        'https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&display=swap',
-        'canvas/css/bootstrap.css',
-        'canvas/style.css',
-        'canvas/css/dark.css',
-        'canvas/css/font-icons.css',
-        'canvas/css/animate.css',
-        'canvas/css/magnific-popup.css',
-        'canvas/css/custom.css',
+    public $sourcePath = '@app/assets/app';
 
+    public $css = [
+        'styles/vendor.css',
+        'styles/main.css',
+        'styles/my.css',
     ];
     public $js = [
-        'canvas/js/jquery.js',
-        'canvas/js/plugins.min.js',
-        'canvas/js/components/bs-datatable.js',
-        'canvas/js/functions.js',
-        'canvas/main.js',
+        "scripts/vendor.min.js",
+        'scripts/input_mask/inputmask.min.js',
+        'scripts/main.js',
+        'scripts/my.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

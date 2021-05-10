@@ -1,12 +1,16 @@
 <?php
-
+use common\models\Question;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -14,29 +18,40 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?=\yii\helpers\Url::to(["../canvas/images/gerb.png"], true)?>"  rel="icon">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body  class="stretched side-header">
 
-<div id="preloader"></div>
-
-
+<body class="header_bottom-hidden">
 <?php $this->beginBody() ?>
 
-    <?php
-        echo $this->render('header/_header');
-        if (Yii::$app->controller->id != 'site'){echo $this->render('header/_news_header');}
-    ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    <?php echo $this->render('footer/_footer'); ?>
+    <div class="main_wrapper">
 
+        <?= \frontend\widgets\Header::widget()?>
+
+        <?= $content ?>
+
+        <?=\frontend\widgets\Footer::widget()?>
+
+    </div>
 <?php $this->endBody() ?>
+<?php
+$session = \Yii::$app->session;
+$flashMessage = $session->getAllFlashes();
+if (!empty($flashMessage)) :
+    foreach ($flashMessage as $key => $message) : ?>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            swal({
+                text: "<?=$message?>",
+                type: "<?=$key?>"
+            });
+        });
+    </script>
+    <?php endforeach; endif; ?>
 </body>
 </html>
 <?php $this->endPage() ?>
