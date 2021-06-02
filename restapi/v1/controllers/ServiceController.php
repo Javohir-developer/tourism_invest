@@ -4,8 +4,9 @@ namespace restapi\v1\controllers;
 use common\models\Service;
 use common\models\ServiceTranslations;
 use Yii;
+use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
-
+use yii\data\ActiveDataProvider;
 class ServiceController extends MyController
 {
 
@@ -25,7 +26,9 @@ class ServiceController extends MyController
 
         }
 
-        return $massiv;
+        return new ActiveDataProvider([
+            'query' => $ervices
+        ]);
     }
 
     public function actionCreate(){
@@ -56,7 +59,9 @@ class ServiceController extends MyController
             if ($model->updates($request)){
                 return ['result'=>200];
             }else{
-                return $model;
+                return new ActiveDataProvider([
+                    'query' => $model
+                ]);
             }
         }
     }
@@ -75,7 +80,9 @@ class ServiceController extends MyController
     public function actionView($id)
     {
         $service = $this->findModel($id);
-        return $service;
+        return new ActiveDataProvider([
+            'query' => $service
+        ]);
     }
 
 

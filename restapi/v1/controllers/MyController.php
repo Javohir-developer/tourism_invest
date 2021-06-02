@@ -12,7 +12,7 @@ use yii\filters\auth\HttpBearerAuth;
 
 
 
-class MyController extends Controller
+abstract class MyController extends Controller
 {
 
     public $serializer = [
