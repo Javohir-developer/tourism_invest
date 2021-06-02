@@ -21,9 +21,9 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body  class="stretched side-header">
+<body  data-spy="scroll" data-target=".side-nav-menu" data-offset="90">
 
-<div id="preloader"></div>
+<!-- <div id="preloader"></div> -->
 
 
 <?php $this->beginBody() ?>
